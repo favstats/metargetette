@@ -1,0 +1,29 @@
+name: "90 Timeframe"
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-data:
+    name: Thirty Timeframe
+    runs-on: "macos-latest"
+    steps:
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: 'release'
+      - name: Setup - Checkout repo
+        uses: actions/checkout@v2
+      - name: "Install Packages"
+        run: |
+          install.packages('tidyverse')
+          install.packages('httr')
+          install.packages('jsonlite')
+          install.packages('janitor')
+        shell: Rscript {0}
+      - name: "Script - Run"
+        run: Rscript 'get_audiences.R'
+      - name: "Commit"
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Script Routine Thirty
