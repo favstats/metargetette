@@ -11,10 +11,12 @@ tstamp <- Sys.time()
 
 # source("utils.R")
 
-# last90days <- read_csv("data/FacebookAdLibraryReport_2022-11-02_US_last_90_days_advertisers.csv") %>%
-#   janitor::clean_names() %>%
-#   arrange(desc(amount_spent_usd)) %>%
-#   mutate(spend_upper = amount_spent_usd %>% as.numeric())
+last90days <- read_csv("data/FacebookAdLibraryReport_2022-11-07_US_last_90_days_advertisers.csv") %>%
+  janitor::clean_names() %>%
+  arrange(desc(amount_spent_usd)) %>%
+  mutate(spend_upper = amount_spent_usd %>% as.numeric()) %>%
+    arrange(-spend_upper) %>%
+    mutate_all(as.character)
 #
 # midterms <- readRDS("data/midterms.rds")
 #
@@ -46,7 +48,10 @@ tstamp <- Sys.time()
 # #
 # saveRDS(internal_page_ids, file = "data/internal_page_ids.rds")
 
-internal_page_ids <- readRDS("data/internal_page_ids.rds")
+internal_page_ids <- readRDS("data/internal_page_ids.rds") %>%
+    mutate_all(as.character) %>%
+      bind_rows(last90days) %>%
+      distinct(page_id, .keep_all = T)
 
 ### save seperately
 internal_page_ids %>% #count(cntry, sort  =T) %>%
