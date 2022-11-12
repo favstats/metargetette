@@ -53,6 +53,7 @@ last90days2 <- read_csv("data/FacebookAdLibraryReport_2022-11-09_US_last_90_days
 # #
 # saveRDS(internal_page_ids, file = "data/internal_page_ids.rds")
 
+
 internal_page_ids <- readRDS("data/internal_page_ids.rds") %>%
     mutate_all(as.character) %>%
       bind_rows(last90days)  %>%
