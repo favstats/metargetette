@@ -17,7 +17,12 @@ last90days <- read_csv("data/FacebookAdLibraryReport_2022-11-07_US_last_90_days_
   mutate(spend_upper = amount_spent_usd %>% as.numeric()) %>%
     arrange(-spend_upper) %>%
     mutate_all(as.character)
-#
+last90days2 <- read_csv("data/FacebookAdLibraryReport_2022-11-09_US_last_90_days_advertisers.csv") %>%
+    janitor::clean_names() %>%
+    arrange(desc(amount_spent_usd)) %>%
+    mutate(spend_upper = amount_spent_usd %>% as.numeric()) %>%
+    arrange(-spend_upper) %>%
+    mutate_all(as.character)
 # midterms <- readRDS("data/midterms.rds")
 #
 # rest <- readRDS("data/additional_page_ids.rds") %>%
@@ -50,7 +55,8 @@ last90days <- read_csv("data/FacebookAdLibraryReport_2022-11-07_US_last_90_days_
 
 internal_page_ids <- readRDS("data/internal_page_ids.rds") %>%
     mutate_all(as.character) %>%
-      bind_rows(last90days) %>%
+      bind_rows(last90days)  %>%
+    bind_rows(last90days2) %>%
       distinct(page_id, .keep_all = T)
 
 ### save seperately
